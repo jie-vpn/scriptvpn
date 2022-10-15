@@ -1,0 +1,52 @@
+{
+  "log": {
+    "loglevel": "info",
+    "error": "/var/log/xray/error6.log",
+    "access": "/var/log/xray/access6.log"
+  },
+  "inbounds": [
+    {
+      "listen": "127.0.0.1",
+      "port": 5571,
+      "protocol": "trojan",
+      "settings": {
+        "clients": [
+          {
+            "password":"potato",
+            "email": "potato@gmail.com"
+#trojan
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "grpc",
+        "grpcSettings": {
+            "serviceName": "trojangrpc"
+          }
+        }
+      }
+  ],
+  "routing": {
+    "domainStrategy": "IPIfNonMatch",
+    "rules": [
+      {
+        "type": "field",
+        "protocol": [
+          "bittorrent"
+        ],
+        "outboundTag": "blocked"
+      }
+    ]
+  },
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "settings": {}
+    },
+    {
+      "tag": "blocked",
+      "protocol": "blackhole",
+      "settings": {}
+    }
+  ]
+}
